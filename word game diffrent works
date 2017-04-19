@@ -1,0 +1,122 @@
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+ 
+
+public class Word game {
+    private static char 
+ private static char board[][] = new char[20][20]; // private tanımadık ki diğer sınıflarda gözükmesin.
+    private static ArrayList<String> myWords = new ArrayList<String>(); // eğer kendimiz girmek istersek sınırsız boyutta arrayliste kelimelerimizi atıyoruz.
+    private static String words[] = {"pear", "peace", "apple", "banana", "coffe"}; // manuel tanımladığımız kelimeler
+     
+    public static void gamestart(){ // sadece bu fonksiyonu public tanımlayarak OOP mantığına en uygun şekilde oyunumuzu yazdık
+        fillLetter();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("If you want enter a word. (press 1)");
+        System.out.println("If you want start default word. (press 2)");
+        int selection = scan.nextInt();
+        switch (selection) {
+        case 1:
+            System.out.print("How many words would you like to add :");
+            int wordcount = scan.nextInt();
+            while(wordcount>0){
+                System.out.print("Enter the word : ");
+                myWords.add(scan.next().toUpperCase());
+                wordcount--;
+            }
+            for (int i = 0; i < myWords.size(); i++) {
+                addword(myWords.get(i));
+            }
+            break;
+        case 2 :
+            for (int i = 0; i < kelimeler.length; i++) {
+                addword(words[i]);
+            }
+            break;
+        default:
+            System.out.println("Yanlış Seçim Kelimeler Oluşturulmadan tablo aktarılıyor.");
+            break;
+        }
+        showBoard();
+        System.out.println("Kelimeler SOLDAN - SAĞA, SAĞDAN - SOLA,  YUKARIDAN - AŞAĞIYA, AŞAĞIDAN - YUKARIYA oluşturulmuştur... ");
+        scan.close();
+    }
+     
+    //Öncelikle rastgele kelimesiz tablo dizer
+    private static void fillLetter(){
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                board[i][j] = produceLetter();
+            }
+        }
+    }
+     
+    //Büyük Harf Döndürür
+    private static char produceLetter(){
+        Random r = new Random();
+        return (char) (65 + r.nextInt(26));
+    }
+     
+    //kelimelerimizi ekler
+    private static void addword(String word){
+        Random r = new Random();
+        int 
+int wordLength = word.length(); // kelimenin uzunluğunu alırız
+        int howtoadd = r.nextInt(4); // sistem rastgele düzende ekleme yapar
+        int raw,column;
+        if(howtoadd == 0 ){// soldan sağa
+            raw = r.nextInt(20);
+            if(wordLength != 20)
+                column = r.nextInt(20-word.length); // sağdan taşmaması için kelimenin uzunluğundan az sutun numarası üretiriz
+            else
+                column = 0;
+             
+            for (int i = 0; i < word.length(); i++) {
+                tahta[raw][column] = word.charAt(i);
+                column++;
+            }
+        }else if(howtoadd == 1 ){// sağdan sola
+            raw = r.nextInt(20);
+            if(wordLength != 20)
+                column = wordLength + r.nextInt(20-wordLength); // soldan taşmaması için kelimenin uzunluğundan az sutun numarası üretiriz
+            else
+                column = 19;
+            for (int i = 0; i < word.length(); i++) {
+                board[raw][column] = word.charAt(i);
+                column--;
+            }
+        }else if(howtoadd == 2){//yukarıdan aşağıya 
+            if(wordLenght != 20)
+                raw = r.nextInt(20-wordLength); //aşağıdan taşmaması için kelimenin uzunluğundan az sutun numarası üretiriz
+            else
+                raw = 0;
+            column = r.nextInt(20);
+             
+            for (int i = 0; i < word.length(); i++) {
+                board[raw][column] = word.charAt(i);
+                raw++;
+            }
+        }else if(howtoadd == 3){//aşağıdan yukarıya
+            if(wordLength != 20)
+                raw = wordLength + r.nextInt(20-wordLength); // yukarıdan taşmaması için kelimenin uzunluğundan az sutun numarası üretiriz
+            else
+                raw = 19;
+            column = r.nextInt(20);
+             
+            for (int i = 0; i < word.length(); i++) {
+                board[raw][column] = word.charAt(i);
+                raw--;
+            }
+        }
+    }
+     
+    // show us board
+    private static void showBoard(){
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
+                System.out.print(board[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+}
